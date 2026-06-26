@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Briefcase,
   FileText,
@@ -9,16 +13,19 @@ import {
 } from "lucide-react";
 
 const navigation = [
-  { name: "Briefing", icon: Home },
-  { name: "Missions", icon: Target },
-  { name: "Resume Studio", icon: FileText },
-  { name: "Portfolio", icon: FolderOpen },
-  { name: "Interview Room", icon: Briefcase },
-  { name: "AI Core", icon: Sparkles },
-  { name: "Settings", icon: Settings },
+  { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "Career Twin", href: "/career-twin", icon: Sparkles },
+  { name: "Jobs", href: "/jobs", icon: Target },
+  { name: "Applications", href: "/applications", icon: Briefcase },
+  { name: "Documents", href: "/documents", icon: FolderOpen },
+  { name: "Interview Prep", href: "/interview", icon: FileText },
+  { name: "Insights", href: "/insights", icon: Target },
+  { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 export default function Sidebar() {
+  const pathname = usePathname();
+
   return (
     <aside className="flex h-screen w-72 flex-col border-r border-cyan-500/20 bg-slate-950 text-slate-100">
       <div className="border-b border-cyan-500/20 p-6">
@@ -38,10 +45,17 @@ export default function Sidebar() {
 
             return (
               <li key={item.name}>
-                <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition hover:bg-cyan-500/10 hover:text-cyan-300">
+               <Link
+  href={item.href}
+  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 transition ${
+    pathname === item.href
+      ? "bg-cyan-500/20 text-cyan-300"
+      : "text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-300"
+  }`}
+>
                   <Icon className="h-5 w-5" />
                   <span>{item.name}</span>
-                </button>
+                </Link>
               </li>
             );
           })}
