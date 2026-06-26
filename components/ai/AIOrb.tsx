@@ -14,6 +14,12 @@ export default function AIOrb({
 
       <div className={styles.glow} />
 
+      {/* NEW */}
+      <div className={styles.outerRing} />
+
+      {/* NEW */}
+      <div className={styles.outerRingTwo} />
+
       <div className={styles.shell}>
 
         <div className={styles.energy} />
@@ -21,6 +27,12 @@ export default function AIOrb({
         <div className={styles.highlight} />
 
       </div>
+
+      {/* NEW */}
+      <div className={styles.particleOne} />
+      <div className={styles.particleTwo} />
+      <div className={styles.particleThree} />
+      <div className={styles.particleFour} />
 
     </div>
   );

@@ -2,8 +2,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 
 import DashboardHero from "@/components/dashboard/DashboardHero";
 import AIBriefing from "@/components/dashboard/AIBriefing";
-import RecommendationCard from "@/components/briefing/RecommendationCard";
-import ActivityFeed from "@/components/briefing/ActivityFeed";
+import MissionControl from "@/components/dashboard/MissionControl";
 
 import StatCard from "@/components/dashboard/StatCard";
 
@@ -45,11 +44,11 @@ export default function DashboardPage() {
       </div>
 
       <AIBriefing />
+      <MissionControl />
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
-        <RecommendationCard />
-        <ActivityFeed />
-      </div>
+      <div className="mt-10">
+  
+</div>
     </DashboardLayout>
   );
 }

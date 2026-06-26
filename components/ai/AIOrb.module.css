@@ -5,6 +5,8 @@
   justify-content: center;
 }
 
+/* ---------- GLOW ---------- */
+
 .glow {
   position: absolute;
   inset: 50%;
@@ -25,6 +27,37 @@
   animation: pulseGlow 5s ease-in-out infinite;
 }
 
+/* ---------- OUTER RINGS ---------- */
+
+.outerRing,
+.outerRingTwo {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid rgba(34, 211, 238, 0.12);
+  pointer-events: none;
+}
+
+.outerRing {
+  width: 255px;
+  height: 255px;
+
+  animation:
+    rotateRing 40s linear infinite,
+    ringPulse 8s ease-in-out infinite;
+}
+
+.outerRingTwo {
+  width: 285px;
+  height: 285px;
+  opacity: 0.35;
+
+  animation:
+    rotateRingReverse 55s linear infinite,
+    ringPulse 10s ease-in-out infinite;
+}
+
+/* ---------- ORB ---------- */
+
 .shell {
   position: relative;
 
@@ -32,7 +65,6 @@
   height: 210px;
 
   border-radius: 9999px;
-
   overflow: hidden;
 
   background:
@@ -47,24 +79,28 @@
   animation: breathe 6s ease-in-out infinite;
 }
 
+/* ---------- ENERGY ---------- */
+
 .energy {
   position: absolute;
 
-  width: 170%;
-  height: 170%;
+  inset: 0;
 
-  top: -35%;
-  left: -35%;
+  border-radius: 9999px;
 
   background:
-    radial-gradient(circle at center,
-      rgba(255,255,255,.18),
-      transparent 55%);
+    radial-gradient(
+      circle at center,
+      rgba(255,255,255,.16),
+      transparent 65%
+    );
 
   mix-blend-mode: screen;
 
   animation: rotateEnergy 18s linear infinite;
 }
+
+/* ---------- HIGHLIGHT ---------- */
 
 .highlight {
   position: absolute;
@@ -82,49 +118,182 @@
   filter: blur(12px);
 }
 
+/* ---------- PARTICLES ---------- */
+
+.particleOne,
+.particleTwo,
+.particleThree,
+.particleFour {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+
+  background: rgba(103,232,249,.9);
+
+  box-shadow: 0 0 14px rgba(34,211,238,.8);
+}
+
+.particleOne {
+  top: 18%;
+  left: 72%;
+  animation: floatOne 7s ease-in-out infinite;
+}
+
+.particleTwo {
+  bottom: 20%;
+  right: 18%;
+  animation: floatTwo 8s ease-in-out infinite;
+}
+
+.particleThree {
+  top: 66%;
+  left: 16%;
+  animation: floatThree 9s ease-in-out infinite;
+}
+
+.particleFour {
+  top: 32%;
+  left: 12%;
+  animation: floatFour 6.5s ease-in-out infinite;
+}
+
+/* ---------- KEYFRAMES ---------- */
+
 @keyframes breathe {
 
-  0%{
-    transform:scale(1);
+  0% {
+    transform: scale(1);
   }
 
-  50%{
-    transform:scale(1.03);
+  50% {
+    transform: scale(1.03);
   }
 
-  100%{
-    transform:scale(1);
+  100% {
+    transform: scale(1);
   }
 
 }
 
 @keyframes pulseGlow {
 
-  0%{
-    opacity:.45;
-    transform:translate(-50%,-50%) scale(1);
+  0% {
+    opacity: .45;
+    transform: translate(-50%, -50%) scale(1);
   }
 
-  50%{
-    opacity:.8;
-    transform:translate(-50%,-50%) scale(1.08);
+  50% {
+    opacity: .8;
+    transform: translate(-50%, -50%) scale(1.08);
   }
 
-  100%{
-    opacity:.45;
-    transform:translate(-50%,-50%) scale(1);
+  100% {
+    opacity: .45;
+    transform: translate(-50%, -50%) scale(1);
   }
 
 }
 
 @keyframes rotateEnergy {
 
-  from{
-    transform:rotate(0deg);
+  from {
+    transform: rotate(0deg);
   }
 
-  to{
-    transform:rotate(360deg);
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+@keyframes rotateRing {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+@keyframes rotateRingReverse {
+
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+
+}
+
+@keyframes ringPulse {
+
+  0% {
+    opacity: .15;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .4;
+    transform: scale(1.02);
+  }
+
+  100% {
+    opacity: .15;
+    transform: scale(1);
+  }
+
+}
+
+@keyframes floatOne {
+
+  0%,100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+}
+
+@keyframes floatTwo {
+
+  0%,100% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(8px);
+  }
+
+}
+
+@keyframes floatThree {
+
+  0%,100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+
+}
+
+@keyframes floatFour {
+
+  0%,100% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(-8px);
   }
 
 }
