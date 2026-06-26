@@ -1,9 +1,4 @@
-const accomplishments = [
-  "Designed USPS Postal Store experiences",
-  "Built NOAA AI weather platform concepts",
-  "Produced Treasury modernization demos",
-  "Led federal product storytelling initiatives",
-];
+import { careerTwin } from "@/data/careerTwin";
 
 export default function AccomplishmentsCard() {
   return (
@@ -13,7 +8,7 @@ export default function AccomplishmentsCard() {
       </h2>
 
       <ul className="mt-6 space-y-3 text-slate-300">
-        {accomplishments.map((item) => (
+        {careerTwin.accomplishments.map((item) => (
           <li key={item}>• {item}</li>
         ))}
       </ul>

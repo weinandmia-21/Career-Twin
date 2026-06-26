@@ -1,8 +1,4 @@
-const goals = [
-  "Senior Product Manager",
-  "AI Product Lead",
-  "Director of Product Design",
-];
+import { careerTwin } from "@/data/careerTwin";
 
 export default function GoalsCard() {
   return (
@@ -12,7 +8,7 @@ export default function GoalsCard() {
       </h2>
 
       <ul className="mt-6 space-y-3 text-slate-300">
-        {goals.map((goal) => (
+        {careerTwin.goals.map((goal) => (
           <li key={goal}>• {goal}</li>
         ))}
       </ul>

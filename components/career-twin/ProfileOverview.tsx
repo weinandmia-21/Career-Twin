@@ -1,3 +1,5 @@
+import { careerTwin } from "@/data/careerTwin";
+
 export default function ProfileOverview() {
   return (
     <div className="rounded-2xl border border-cyan-500/20 bg-slate-900 p-8">
@@ -8,11 +10,11 @@ export default function ProfileOverview() {
           </p>
 
           <h1 className="mt-2 text-4xl font-bold text-white">
-            Mia Weinand
+            {careerTwin.profile.name}
           </h1>
 
           <p className="mt-3 text-slate-400">
-            Strategic Communications • Product Strategy • AI Experience
+            {careerTwin.profile.tagline}
           </p>
         </div>
 
@@ -22,7 +24,7 @@ export default function ProfileOverview() {
           </p>
 
           <p className="mt-2 text-3xl font-bold text-emerald-400">
-            92%
+            {careerTwin.profile.confidence}%
           </p>
         </div>
       </div>

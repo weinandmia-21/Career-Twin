@@ -1,6 +1,7 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
 import ProfileOverview from "@/components/career-twin/ProfileOverview";
+import ProfileTabs from "@/components/career-twin/ProfileTabs";
 import ProfessionalSummary from "@/components/career-twin/ProfessionalSummary";
 import StrengthsCard from "@/components/career-twin/StrengthsCard";
 import GoalsCard from "@/components/career-twin/GoalsCard";
@@ -11,18 +12,20 @@ export default function CareerTwinPage() {
     <DashboardLayout>
       <ProfileOverview />
 
-      <div className="mt-8">
-        <ProfessionalSummary />
-      </div>
+      <ProfileTabs />
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
+      <section className="mt-8">
+        <ProfessionalSummary />
+      </section>
+
+      <section className="mt-8 grid gap-8 lg:grid-cols-2">
         <StrengthsCard />
         <GoalsCard />
-      </div>
+      </section>
 
-      <div className="mt-8">
+      <section className="mt-8">
         <AccomplishmentsCard />
-      </div>
+      </section>
     </DashboardLayout>
   );
 }
