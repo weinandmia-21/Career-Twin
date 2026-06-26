@@ -9,12 +9,32 @@ export default function Button({
 }: ButtonProps) {
   const styles =
     variant === "primary"
-      ? "bg-cyan-500 text-slate-950 hover:bg-cyan-400"
-      : "border border-cyan-500/20 text-cyan-300 hover:bg-cyan-500/10";
+      ? `
+        bg-blue-500
+        text-white
+        hover:bg-blue-400
+      `
+      : `
+        border
+        border-white/10
+        bg-white/5
+        text-white
+        hover:bg-white/10
+      `;
 
   return (
     <button
-      className={`rounded-xl px-5 py-3 font-semibold transition ${styles}`}
+      className={`
+        rounded-xl
+        px-6
+        py-3
+        font-medium
+        transition-all
+        duration-200
+        hover:scale-[1.02]
+        active:scale-[0.98]
+        ${styles}
+      `}
     >
       {children}
     </button>
