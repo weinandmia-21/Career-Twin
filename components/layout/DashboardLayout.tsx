@@ -1,8 +1,10 @@
-import Sidebar from "./Sidebar";
+import ActivityFeed from "@/components/briefing/ActivityFeed";
 import BriefingHeader from "@/components/briefing/BriefingHeader";
 import DailySummary from "@/components/briefing/DailySummary";
 import RecommendationCard from "@/components/briefing/RecommendationCard";
-import ActivityFeed from "@/components/briefing/ActivityFeed";
+import AIStatus from "@/components/dashboard/AIStatus";
+import { DashboardGrid } from "@/components/dashboard/DashboardGrid";
+import Sidebar from "./Sidebar";
 
 export default function DashboardLayout() {
   return (
@@ -10,20 +12,27 @@ export default function DashboardLayout() {
       <Sidebar />
 
       <main className="flex-1 p-10">
+        <DashboardGrid>
+          <DashboardGrid.CareerBriefing>
+            <BriefingHeader />
+            <div className="mt-8">
+              <DailySummary />
+            </div>
+          </DashboardGrid.CareerBriefing>
 
-  <BriefingHeader />
+          <DashboardGrid.TodaysMission>
+            <RecommendationCard />
+          </DashboardGrid.TodaysMission>
 
-  <DailySummary />
+          <DashboardGrid.BackgroundTasks>
+            <ActivityFeed />
+          </DashboardGrid.BackgroundTasks>
 
-  <div className="mt-8 grid gap-8 lg:grid-cols-2">
-
-    <RecommendationCard />
-
-    <ActivityFeed />
-
-  </div>
-
-</main>
+          <DashboardGrid.AIStatus>
+            <AIStatus />
+          </DashboardGrid.AIStatus>
+        </DashboardGrid>
+      </main>
     </div>
   );
 }
