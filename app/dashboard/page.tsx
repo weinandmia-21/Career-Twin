@@ -6,6 +6,9 @@ import RecommendationCard from "@/components/briefing/RecommendationCard";
 import ActivityFeed from "@/components/briefing/ActivityFeed";
 
 import StatCard from "@/components/dashboard/StatCard";
+
+import { dashboard } from "@/data/dashboard";
+
 import {
   Trophy,
   FileText,
@@ -13,40 +16,33 @@ import {
   MessageSquare,
 } from "lucide-react";
 
+const icons = [
+  Trophy,
+  FileText,
+  CalendarCheck,
+  MessageSquare,
+];
+
 export default function DashboardPage() {
   return (
     <DashboardLayout>
       <BriefingHeader />
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-  <StatCard
-    title="Career Score"
-    value="94"
-    subtitle="+2 this week"
-    icon={Trophy}
-  />
+        {dashboard.stats.map((stat, index) => {
+          const Icon = icons[index];
 
-  <StatCard
-    title="Applications"
-    value="12"
-    subtitle="3 awaiting response"
-    icon={FileText}
-  />
-
-  <StatCard
-    title="Interviews"
-    value="3"
-    subtitle="1 this week"
-    icon={CalendarCheck}
-  />
-
-  <StatCard
-    title="Responses"
-    value="4"
-    subtitle="2 recruiters"
-    icon={MessageSquare}
-  />
-</div>
+          return (
+            <StatCard
+              key={stat.title}
+              title={stat.title}
+              value={stat.value}
+              subtitle={stat.subtitle}
+              icon={Icon}
+            />
+          );
+        })}
+      </div>
 
       <AIBriefing />
 
