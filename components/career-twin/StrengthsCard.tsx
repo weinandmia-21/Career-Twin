@@ -1,11 +1,11 @@
+import Card from "@/components/ui/Card";
+import SectionTitle from "@/components/ui/SectionTitle";
 import { careerTwin } from "@/data/careerTwin";
 
 export default function StrengthsCard() {
   return (
-    <section className="rounded-2xl border border-cyan-500/20 bg-slate-900 p-8">
-      <h2 className="text-xl font-semibold text-white">
-        Core Strengths
-      </h2>
+    <Card>
+      <SectionTitle>Core Strengths</SectionTitle>
 
       <div className="mt-6 flex flex-wrap gap-3">
         {careerTwin.strengths.map((strength) => (
@@ -17,6 +17,6 @@ export default function StrengthsCard() {
           </span>
         ))}
       </div>
-    </section>
+    </Card>
   );
 }
