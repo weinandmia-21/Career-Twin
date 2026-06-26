@@ -1,4 +1,6 @@
-export const careerTwin = {
+import { CareerTwin } from "@/types/careerTwin";
+
+export const careerTwin: CareerTwin = {
   profile: {
     name: "Mia Weinand",
     title: "Strategic Communications Manager",
