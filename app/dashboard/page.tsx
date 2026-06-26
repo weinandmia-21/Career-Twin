@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
-import BriefingHeader from "@/components/briefing/BriefingHeader";
+import DashboardHero from "@/components/dashboard/DashboardHero";
 import AIBriefing from "@/components/dashboard/AIBriefing";
 import RecommendationCard from "@/components/briefing/RecommendationCard";
 import ActivityFeed from "@/components/briefing/ActivityFeed";
@@ -26,7 +26,7 @@ const icons = [
 export default function DashboardPage() {
   return (
     <DashboardLayout>
-      <BriefingHeader />
+      <DashboardHero/>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {dashboard.stats.map((stat, index) => {
