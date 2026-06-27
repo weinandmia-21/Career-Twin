@@ -1,5 +1,18 @@
-import { uploadResume } from "@/lib/db/resumes";
+"use server";
+
+import { createClient } from "@/lib/auth/server";
+import { ingestResume } from "@/lib/services/resumeIngestion";
 
 export async function uploadResumeAction(file: File) {
-  return uploadResume(file);
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("User is not authenticated.");
+  }
+
+  return ingestResume(file, user.id);
 }
