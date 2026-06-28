@@ -1,17 +1,40 @@
-import { Briefcase, TrendingUp, Users } from "lucide-react";
-import { hero } from "@/data/hero";
+"use client";
 
-const icons = [
+import {
   Briefcase,
-  Users,
   TrendingUp,
-];
+  Users,
+} from "lucide-react";
+
+import { useCareerTwinStore } from "@/lib/store/careerTwinStore";
 
 export default function HeroMetrics() {
+  const profile = useCareerTwinStore(
+    (state) => state.profile
+  );
+
+  const metrics = [
+    {
+      label: "Skills",
+      value: profile?.skills?.length ?? "--",
+      icon: Briefcase,
+    },
+    {
+      label: "Industries",
+      value: profile?.industries?.length ?? "--",
+      icon: Users,
+    },
+    {
+      label: "Leadership",
+      value: profile?.leadershipLevel ?? "--",
+      icon: TrendingUp,
+    },
+  ];
+
   return (
     <div className="mt-14 flex flex-wrap gap-10">
-      {hero.metrics.map((metric, index) => {
-        const Icon = icons[index];
+      {metrics.map((metric) => {
+        const Icon = metric.icon;
 
         return (
           <div

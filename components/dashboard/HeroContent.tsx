@@ -1,10 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-import { careerTwinState } from "@/data/careerTwinState";
+import { useCareerTwinStore } from "@/lib/store/careerTwinStore";
 
 export default function HeroContent() {
-  const { profile, dashboard } = careerTwinState;
+  const profile = useCareerTwinStore(
+    (state) => state.profile
+  );
+  console.log("📊 Dashboard profile:", profile);
 
   return (
     <div className="flex h-full flex-col justify-center">
@@ -12,27 +17,53 @@ export default function HeroContent() {
         <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
 
         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">
-          AI Briefing Ready
+          Career Twin Active
         </span>
       </div>
 
       <h1 className="mt-8 text-6xl font-bold tracking-tight text-white">
-        {dashboard.greeting}
+        Welcome back
+        {profile?.name ? `, ${profile.name}` : ""}.
       </h1>
 
-      <p className="mt-6 max-w-xl text-xl leading-9 text-slate-300">
-        Your Career Twin analyzed today's market and prepared your highest-impact
-        opportunity based on your goals and active applications.
+      <p className="mt-6 text-3xl font-semibold text-cyan-300">
+        {profile?.professionalTitle ??
+          "Building your Career Twin..."}
       </p>
 
-      <Link
-  href="/mission"
-  className="mt-10 inline-flex w-fit items-center gap-2 rounded-full bg-cyan-400 px-8 py-4 font-semibold text-slate-950 transition hover:scale-[1.02] hover:bg-cyan-300"
->
-  Review Today's Mission
+      <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
+        {profile?.executiveSummary ??
+          "Upload your resume to begin creating your AI-powered Career Twin."}
+      </p>
 
-  <ArrowRight className="h-5 w-5" />
-</Link>
+      <div className="mt-10 flex flex-wrap gap-3">
+        {profile?.currentCompany && (
+          <div className="rounded-full border border-cyan-500/20 bg-slate-900 px-5 py-2 text-cyan-300">
+            🏢 {profile.currentCompany}
+          </div>
+        )}
+
+        {profile?.yearsExperience !== undefined && (
+          <div className="rounded-full border border-cyan-500/20 bg-slate-900 px-5 py-2 text-cyan-300">
+            📈 {profile.yearsExperience}+ Years
+          </div>
+        )}
+
+        {profile?.leadershipLevel && (
+          <div className="rounded-full border border-cyan-500/20 bg-slate-900 px-5 py-2 text-cyan-300">
+            👤 {profile.leadershipLevel}
+          </div>
+        )}
+      </div>
+
+      <Link
+        href="/mission"
+        className="mt-10 inline-flex w-fit items-center gap-2 rounded-full bg-cyan-400 px-8 py-4 font-semibold text-slate-950 transition hover:scale-[1.02] hover:bg-cyan-300"
+      >
+        Review Today's Mission
+
+        <ArrowRight className="h-5 w-5" />
+      </Link>
     </div>
   );
 }

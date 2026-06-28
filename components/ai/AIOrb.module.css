@@ -5,295 +5,400 @@
   justify-content: center;
 }
 
-/* ---------- GLOW ---------- */
+/* ===========================================================
+   SIZES
+=========================================================== */
+
+.small {
+  transform: scale(.55);
+}
+
+.medium {
+  transform: scale(.8);
+}
+
+.large {
+  transform: scale(1);
+}
+
+/* ===========================================================
+   GLOW
+=========================================================== */
 
 .glow {
   position: absolute;
-  inset: 50%;
-  transform: translate(-50%, -50%);
   width: 360px;
   height: 360px;
   border-radius: 9999px;
 
   background: radial-gradient(
     circle,
-    rgba(34, 211, 238, 0.22),
-    rgba(34, 211, 238, 0.08) 45%,
+    rgba(34,211,238,.25),
+    rgba(34,211,238,.08) 45%,
     transparent 75%
   );
 
   filter: blur(55px);
 
-  animation: pulseGlow 5s ease-in-out infinite;
+  animation: glowPulse 6s ease-in-out infinite;
 }
 
-/* ---------- OUTER RINGS ---------- */
+/* ===========================================================
+   OUTER RINGS
+=========================================================== */
 
 .outerRing,
-.outerRingTwo {
-  position: absolute;
-  border-radius: 9999px;
-  border: 1px solid rgba(34, 211, 238, 0.12);
-  pointer-events: none;
+.outerRingTwo{
+  position:absolute;
+  border-radius:9999px;
+  border:1px solid rgba(34,211,238,.16);
 }
 
-.outerRing {
-  width: 255px;
-  height: 255px;
+.outerRing{
+  width:255px;
+  height:255px;
 
   animation:
-    rotateRing 40s linear infinite,
-    ringPulse 8s ease-in-out infinite;
+    rotateClockwise 34s linear infinite,
+    ringPulse 7s ease-in-out infinite;
 }
 
-.outerRingTwo {
-  width: 285px;
-  height: 285px;
-  opacity: 0.35;
+.outerRingTwo{
+  width:285px;
+  height:285px;
+  opacity:.4;
 
   animation:
-    rotateRingReverse 55s linear infinite,
-    ringPulse 10s ease-in-out infinite;
+    rotateCounterClockwise 48s linear infinite,
+    ringPulse 9s ease-in-out infinite;
 }
 
-/* ---------- ORB ---------- */
+/* ===========================================================
+   SHELL
+=========================================================== */
 
-.shell {
-  position: relative;
+.shell{
+  position:relative;
 
-  width: 210px;
-  height: 210px;
+  width:210px;
+  height:210px;
 
-  border-radius: 9999px;
-  overflow: hidden;
+  overflow:hidden;
+
+  border-radius:9999px;
 
   background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), transparent 30%),
-    linear-gradient(145deg,#66e6ff 0%,#24c8f5 45%,#1185e8 100%);
+    radial-gradient(circle at 30% 30%,rgba(255,255,255,.42),transparent 28%),
+    linear-gradient(
+      145deg,
+      #67e8f9 0%,
+      #22d3ee 35%,
+      #0ea5e9 70%,
+      #1d4ed8 100%
+    );
 
   box-shadow:
-    inset 0 1px 8px rgba(255,255,255,.35),
-    inset 0 -30px 60px rgba(0,0,0,.18),
-    0 0 70px rgba(34,211,238,.28);
+    inset 0 0 30px rgba(255,255,255,.2),
+    inset 0 -35px 55px rgba(0,0,0,.22),
+    0 0 60px rgba(34,211,238,.28);
 
-  animation: breathe 6s ease-in-out infinite;
+  animation:breathe 5s ease-in-out infinite;
 }
 
-/* ---------- ENERGY ---------- */
+/* ===========================================================
+   CORE
+=========================================================== */
 
-.energy {
-  position: absolute;
+.core{
 
-  inset: 0;
+  position:absolute;
 
-  border-radius: 9999px;
+  inset:26px;
+
+  border-radius:50%;
 
   background:
     radial-gradient(
-      circle at center,
-      rgba(255,255,255,.16),
-      transparent 65%
+      circle,
+      rgba(255,255,255,.4),
+      rgba(255,255,255,.08) 55%,
+      transparent 70%
     );
 
-  mix-blend-mode: screen;
+  filter:blur(10px);
 
-  animation: rotateEnergy 18s linear infinite;
+  animation:corePulse 3s ease-in-out infinite;
 }
 
-/* ---------- HIGHLIGHT ---------- */
+/* ===========================================================
+   ENERGY
+=========================================================== */
 
-.highlight {
-  position: absolute;
+.energy{
 
-  width: 130px;
-  height: 130px;
+  position:absolute;
 
-  border-radius: 9999px;
+  inset:0%;
 
-  top: 18px;
-  left: 18px;
+  border-radius:9999px;
 
-  background: rgba(255,255,255,.22);
+  background:
+    conic-gradient(
+      transparent,
+      rgba(255,255,255,.12),
+      transparent,
+      rgba(255,255,255,.08),
+      transparent
+    );
 
-  filter: blur(12px);
+  mix-blend-mode:screen;
+
+  animation:energyRotate 12s linear infinite;
 }
 
-/* ---------- PARTICLES ---------- */
+/* ===========================================================
+   HIGHLIGHT
+=========================================================== */
+
+.highlight{
+
+  position:absolute;
+
+  top:18px;
+  left:22px;
+
+  width:120px;
+  height:120px;
+
+  border-radius:9999px;
+
+  background:rgba(255,255,255,.22);
+
+  filter:blur(12px);
+}
+
+/* ===========================================================
+   ORBITS
+=========================================================== */
+
+.orbit,
+.orbitReverse,
+.orbitSlow,
+.orbitReverseSlow{
+
+  position:absolute;
+
+  width:320px;
+  height:320px;
+
+  display:flex;
+  justify-content:center;
+
+  pointer-events:none;
+}
+
+.orbit{
+
+  animation:rotateClockwise 10s linear infinite;
+
+}
+
+.orbitReverse{
+
+  animation:rotateCounterClockwise 13s linear infinite;
+
+}
+
+.orbitSlow{
+
+  animation:rotateClockwise 18s linear infinite;
+
+}
+
+.orbitReverseSlow{
+
+  animation:rotateCounterClockwise 22s linear infinite;
+
+}
+
+/* ===========================================================
+   PARTICLES
+=========================================================== */
 
 .particleOne,
 .particleTwo,
 .particleThree,
-.particleFour {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 9999px;
+.particleFour{
 
-  background: rgba(103,232,249,.9);
+  width:5px;
+  height:5px;
 
-  box-shadow: 0 0 14px rgba(34,211,238,.8);
+  border-radius:9999px;
+
+  background:#67e8f9;
+
+  box-shadow:0 0 14px rgba(34,211,238,.9);
+
+  margin-top:-4px;
 }
 
-.particleOne {
-  top: 18%;
-  left: 72%;
-  animation: floatOne 7s ease-in-out infinite;
+/* ===========================================================
+   STATES
+=========================================================== */
+
+.idle .glow{
+  opacity:.55;
 }
 
-.particleTwo {
-  bottom: 20%;
-  right: 18%;
-  animation: floatTwo 8s ease-in-out infinite;
+.thinking .glow{
+  animation-duration:2s;
+  opacity:1;
 }
 
-.particleThree {
-  top: 66%;
-  left: 16%;
-  animation: floatThree 9s ease-in-out infinite;
+.thinking .shell{
+  animation-duration:2.5s;
 }
 
-.particleFour {
-  top: 32%;
-  left: 12%;
-  animation: floatFour 6.5s ease-in-out infinite;
+.thinking .outerRing{
+  animation-duration:12s;
 }
 
-/* ---------- KEYFRAMES ---------- */
-
-@keyframes breathe {
-
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.03);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-
+.thinking .outerRingTwo{
+  animation-duration:18s;
 }
 
-@keyframes pulseGlow {
-
-  0% {
-    opacity: .45;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  50% {
-    opacity: .8;
-    transform: translate(-50%, -50%) scale(1.08);
-  }
-
-  100% {
-    opacity: .45;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
+.success .shell{
+  background:
+    radial-gradient(circle at 30% 30%,rgba(255,255,255,.4),transparent 28%),
+    linear-gradient(
+      145deg,
+      #86efac,
+      #4ade80,
+      #16a34a
+    );
 }
 
-@keyframes rotateEnergy {
-
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-
+.success .glow{
+  background:
+    radial-gradient(
+      circle,
+      rgba(34,197,94,.35),
+      rgba(34,197,94,.08) 45%,
+      transparent 75%
+    );
 }
 
-@keyframes rotateRing {
-
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-
+.error .shell{
+  background:
+    radial-gradient(circle at 30% 30%,rgba(255,255,255,.4),transparent 28%),
+    linear-gradient(
+      145deg,
+      #fb7185,
+      #ef4444,
+      #991b1b
+    );
 }
 
-@keyframes rotateRingReverse {
+.error .glow{
+  background:
+    radial-gradient(
+      circle,
+      rgba(239,68,68,.35),
+      rgba(239,68,68,.08),
+      transparent 70%
+    );
+}
 
-  from {
-    transform: rotate(360deg);
+/* ===========================================================
+   KEYFRAMES
+=========================================================== */
+
+@keyframes breathe{
+
+  0%,100%{
+    transform:scale(1);
   }
 
-  to {
-    transform: rotate(0deg);
+  50%{
+    transform:scale(1.03);
   }
 
 }
 
-@keyframes ringPulse {
+@keyframes corePulse{
 
-  0% {
-    opacity: .15;
-    transform: scale(1);
+  0%,100%{
+    opacity:.6;
+    transform:scale(1);
   }
 
-  50% {
-    opacity: .4;
-    transform: scale(1.02);
-  }
-
-  100% {
-    opacity: .15;
-    transform: scale(1);
+  50%{
+    opacity:1;
+    transform:scale(1.08);
   }
 
 }
 
-@keyframes floatOne {
+@keyframes glowPulse{
 
-  0%,100% {
-    transform: translateY(0px);
+  0%,100%{
+    opacity:.5;
+    transform:scale(1);
   }
 
-  50% {
-    transform: translateY(-10px);
-  }
-
-}
-
-@keyframes floatTwo {
-
-  0%,100% {
-    transform: translateX(0px);
-  }
-
-  50% {
-    transform: translateX(8px);
+  50%{
+    opacity:.9;
+    transform:scale(1.08);
   }
 
 }
 
-@keyframes floatThree {
+@keyframes energyRotate{
 
-  0%,100% {
-    transform: translateY(0px);
+  from{
+    transform:rotate(0deg);
   }
 
-  50% {
-    transform: translateY(8px);
+  to{
+    transform:rotate(360deg);
   }
 
 }
 
-@keyframes floatFour {
+@keyframes rotateClockwise{
 
-  0%,100% {
-    transform: translateX(0px);
+  from{
+    transform:rotate(0deg);
   }
 
-  50% {
-    transform: translateX(-8px);
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+@keyframes rotateCounterClockwise{
+
+  from{
+    transform:rotate(360deg);
+  }
+
+  to{
+    transform:rotate(0deg);
+  }
+
+}
+
+@keyframes ringPulse{
+
+  0%,100%{
+    opacity:.15;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:.4;
+    transform:scale(1.03);
   }
 
 }

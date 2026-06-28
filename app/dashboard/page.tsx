@@ -1,3 +1,4 @@
+import CareerDNA from "@/components/dashboard/CareerDNA";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
 import DashboardHero from "@/components/dashboard/DashboardHero";
@@ -43,6 +44,8 @@ export default function DashboardPage() {
       </div>
 
       <AIBriefing />
+
+      <CareerDNA />
 
       <MissionControl />
 

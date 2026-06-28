@@ -1,100 +1,132 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { Upload, CheckCircle2 } from "lucide-react";
+import UploadDropzone from "./UploadDropzone";
+import UploadAnalysis from "./UploadAnalysis";
+import UploadResults from "./UploadResults";
 
-import { uploadResumeAction } from "@/lib/actions/uploadResume";
+import { useCareerTwinStore } from "@/lib/store/careerTwinStore";
+
+type UploadState =
+  | "idle"
+  | "analyzing"
+  | "complete";
 
 export default function ResumeUploader() {
-  const [uploading, setUploading] = useState(false);
-  const [uploaded, setUploaded] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [fileName, setFileName] = useState("");
+  const [uploadState, setUploadState] =
+    useState<UploadState>("idle");
 
-  async function handleFile(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const file = event.target.files?.[0];
+  const [progress, setProgress] = useState(0);
 
-    if (!file) return;
+  const [discoveries, setDiscoveries] = useState<string[]>([]);
 
-    setUploading(true);
+  const setProfile = useCareerTwinStore(
+    (state) => state.setProfile
+  );
+
+  async function handleFile(file: File) {
+    setFileName(file.name);
+    setProgress(0);
+    setDiscoveries([]);
+    setUploadState("analyzing");
 
     try {
-      await uploadResumeAction(file);
+      const formData = new FormData();
 
-      setUploaded(true);
-      setFileName(file.name);
-    } catch (err) {
-      console.error(err);
-      alert("Upload failed.");
+      formData.append("file", file);
+
+      const response = await fetch(
+        "/api/resume/process",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+
+      console.log(result);
+
+      if (result.success) {
+        setProfile(result.profile);
+
+        setDiscoveries([
+          result.profile.currentCompany ||
+            "Company identified",
+
+          result.profile.professionalTitle,
+
+          `${result.profile.yearsExperience}+ years of experience`,
+
+          `${result.profile.skills.length} skills identified`,
+
+          `Leadership: ${result.profile.leadershipLevel}`,
+        ]);
+      } else {
+        setDiscoveries([
+          "Unable to process resume.",
+        ]);
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+
+      setDiscoveries([
+        "Upload failed.",
+      ]);
     }
-
-    setUploading(false);
   }
 
+  useEffect(() => {
+    if (uploadState !== "analyzing") return;
+
+    let progressValue = 0;
+
+    const interval = setInterval(() => {
+      progressValue += 25;
+
+      setProgress(progressValue);
+
+      if (progressValue >= 100) {
+        clearInterval(interval);
+
+        setTimeout(() => {
+          setUploadState("complete");
+        }, 800);
+      }
+    }, 1200);
+
+    return () => clearInterval(interval);
+  }, [uploadState]);
+
   return (
-    <section className="mx-auto max-w-3xl rounded-[32px] border border-white/5 bg-slate-900/70 p-10">
+    <div className="mx-auto max-w-5xl">
 
-      <div className="text-center">
-
-        <Upload className="mx-auto h-12 w-12 text-cyan-400" />
-
-        <h1 className="mt-6 text-4xl font-bold text-white">
-          Upload Your Resume
-        </h1>
-
-        <p className="mt-4 text-slate-400">
-          Career Twin will analyze your resume and personalize every recommendation.
-        </p>
-
-      </div>
-
-      <label className="mt-10 flex cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-cyan-400/20 p-12 transition hover:border-cyan-400/40">
-
-        <input
-          type="file"
-          accept=".pdf,.doc,.docx"
-          className="hidden"
-          onChange={handleFile}
+      {uploadState === "idle" && (
+        <UploadDropzone
+          inputRef={inputRef}
+          onClick={() => inputRef.current?.click()}
+          onDrop={handleFile}
         />
+      )}
 
-        {!uploading && !uploaded && (
-          <>
-            <p className="font-semibold text-white">
-              Click to choose a resume
-            </p>
+      {uploadState === "analyzing" && (
+        <UploadAnalysis
+          fileName={fileName}
+          progress={progress}
+          discoveries={discoveries}
+        />
+      )}
 
-            <p className="mt-2 text-sm text-slate-500">
-              PDF or Word document
-            </p>
-          </>
-        )}
+      {uploadState === "complete" && (
+        <UploadResults
+          fileName={fileName}
+        />
+      )}
 
-        {uploading && (
-          <p className="text-cyan-300">
-            Uploading...
-          </p>
-        )}
-
-        {uploaded && (
-          <div className="text-center">
-
-            <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400" />
-
-            <p className="mt-4 font-semibold text-white">
-              {fileName}
-            </p>
-
-            <p className="mt-2 text-emerald-400">
-              Resume uploaded successfully
-            </p>
-
-          </div>
-        )}
-
-      </label>
-
-    </section>
+    </div>
   );
 }
