@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useCareerTwinStore } from "@/lib/store/careerTwinStore";
 
 export default function AIBriefing() {
-  const profile = useCareerTwinStore(
-    (state) => state.profile
-  );
+  const profile = useCareerTwinStore((state) => state.profile);
 
   if (!profile) {
     return (
@@ -18,24 +16,49 @@ export default function AIBriefing() {
         </p>
 
         <p className="mt-5 text-lg leading-8 text-slate-300">
-          Upload your resume to receive your personalized AI career briefing.
+          Upload your resume to activate your Career Twin and receive
+          personalized career intelligence.
         </p>
       </Card>
     );
   }
 
-  const topStrength =
-    profile.topStrengths?.[0] ?? "Strategic Communication";
+  const strongestCapability =
+    profile.topStrengths[0] ?? "Strategic Communication";
 
-  const topIndustry =
-    profile.industries?.[0] ?? "Technology";
+  const bestRole =
+    profile.idealRoles[0] ?? "Senior Communications Manager";
 
-  const idealRole =
-    profile.idealRoles?.[0] ??
-    "Senior Communications Manager";
+  const primaryIndustry =
+    profile.industries[0] ?? "Technology";
 
-  const totalSkills =
-    profile.skills?.length ?? 0;
+  const skills = profile.skills ?? [];
+
+  const hasAI = skills.some((skill) =>
+    skill.toLowerCase().includes("ai")
+  );
+
+  const hasProduct = skills.some((skill) =>
+    skill.toLowerCase().includes("product")
+  );
+
+  const hasLeadership =
+    profile.leadershipLevel !== "Unknown" &&
+    profile.leadershipLevel !== "Individual Contributor";
+
+  let opportunity =
+    "Continue strengthening measurable business impact across your resume.";
+
+  if (!hasAI) {
+    opportunity =
+      "Develop hands-on AI product experience to strengthen your competitive advantage.";
+  } else if (!hasProduct) {
+    opportunity =
+      "Building deeper product strategy experience will unlock additional leadership opportunities.";
+  } else if (!hasLeadership) {
+    opportunity =
+      "Seek opportunities to lead initiatives and mentor teammates to strengthen your leadership profile.";
+  }
 
   return (
     <Card>
@@ -43,74 +66,89 @@ export default function AIBriefing() {
         Today's AI Briefing
       </p>
 
+      <h2 className="mt-3 text-3xl font-bold text-white">
+        Career Intelligence Report
+      </h2>
+
       <p className="mt-5 text-lg leading-8 text-slate-300">
-        Your Career Twin identified a strong combination of{" "}
+        Based on your Career Twin, your strongest differentiator is{" "}
         <span className="font-semibold text-white">
-          {profile.careerThemes?.slice(0, 3).join(", ")}
+          {strongestCapability}
         </span>
-        . This blend of experience positions you well for senior leadership
-        opportunities that combine communication, strategy, and emerging AI
-        initiatives.
+        . Your background combines{" "}
+        <span className="font-semibold text-white">
+          {profile.careerThemes.slice(0, 3).join(", ")}
+        </span>
+        , positioning you well for strategic leadership opportunities.
       </p>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
+      <div className="mt-8 grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-5">
-          <p className="text-sm font-medium text-cyan-300">
-            Strongest Capability
-          </p>
-
-          <p className="mt-2 text-lg font-semibold text-white">
-            {topStrength}
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-5">
-          <p className="text-sm font-medium text-cyan-300">
+          <p className="text-sm uppercase tracking-wide text-cyan-300">
             Best Next Role
           </p>
 
-          <p className="mt-2 text-lg font-semibold text-white">
-            {idealRole}
+          <p className="mt-2 text-xl font-semibold text-white">
+            {bestRole}
           </p>
         </div>
 
         <div className="rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-5">
-          <p className="text-sm font-medium text-cyan-300">
+          <p className="text-sm uppercase tracking-wide text-cyan-300">
             Primary Industry
           </p>
 
-          <p className="mt-2 text-lg font-semibold text-white">
-            {topIndustry}
+          <p className="mt-2 text-xl font-semibold text-white">
+            {primaryIndustry}
           </p>
         </div>
 
         <div className="rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-5">
-          <p className="text-sm font-medium text-cyan-300">
+          <p className="text-sm uppercase tracking-wide text-cyan-300">
             Skills Identified
           </p>
 
-          <p className="mt-2 text-lg font-semibold text-white">
-            {totalSkills}
+          <p className="mt-2 text-xl font-semibold text-white">
+            {skills.length}
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-5">
+          <p className="text-sm uppercase tracking-wide text-cyan-300">
+            Leadership Level
+          </p>
+
+          <p className="mt-2 text-xl font-semibold text-white">
+            {profile.leadershipLevel}
           </p>
         </div>
       </div>
 
       <div className="mt-8 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-6">
         <p className="text-sm font-semibold uppercase tracking-wide text-emerald-300">
-          Recommended Next Step
+          Biggest Growth Opportunity
         </p>
 
         <p className="mt-3 text-slate-200">
-          Focus your upcoming applications on{" "}
+          {opportunity}
+        </p>
+      </div>
+
+      <div className="mt-8 rounded-2xl border border-cyan-500/20 bg-slate-900 p-6">
+        <p className="text-sm font-semibold uppercase tracking-wide text-cyan-300">
+          AI Recommendation
+        </p>
+
+        <p className="mt-3 text-slate-200">
+          Focus upcoming applications on{" "}
           <span className="font-semibold text-white">
-            {idealRole}
-          </span>{" "}
-          positions. Your combination of{" "}
+            {bestRole}
+          </span>
+          . Tailor your resume to emphasize{" "}
           <span className="font-semibold text-white">
-            {profile.skills?.slice(0, 3).join(", ")}
+            {profile.topStrengths.slice(0, 3).join(", ")}
           </span>{" "}
-          is a strong differentiator that should be highlighted throughout your
-          resume, LinkedIn profile, and interview stories.
+          and quantify the measurable business impact of your accomplishments.
         </p>
       </div>
 

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   ArrowRight,
@@ -6,30 +8,45 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import { getMission } from "@/lib/careerTwin";
-
-const activity = [
-  {
-    title: "Resume optimized for Stripe",
-    time: "2 minutes ago",
-  },
-  {
-    title: "Microsoft viewed your application",
-    time: "18 minutes ago",
-  },
-  {
-    title: "3 high-match opportunities discovered",
-    time: "1 hour ago",
-  },
-];
+import { useCareerTwinStore } from "@/lib/store/careerTwinStore";
+import { generateMission } from "@/lib/mission/generateMission";
 
 export default function MissionControl() {
-  const mission = getMission();
+  const profile = useCareerTwinStore(
+    (state) => state.profile
+  );
+
+  if (!profile) {
+    return null;
+  }
+
+  const mission = generateMission(profile);
+
+  const activity = [
+    {
+      title: `Career Twin analyzed ${profile.skills.length} skills.`,
+      time: "Just now",
+    },
+    {
+      title: `Recommended role: ${mission.objective}`,
+      time: "Today",
+    },
+    {
+      title: `${profile.topStrengths.length} professional strengths identified.`,
+      time: "Today",
+    },
+  ];
+
+  const confidence = Math.min(
+    98,
+    70 +
+      profile.skills.length +
+      profile.topStrengths.length +
+      profile.careerThemes.length
+  );
 
   return (
     <section className="rounded-[32px] border border-white/5 bg-gradient-to-br from-slate-900/80 to-slate-950 p-8">
-      {/* Header */}
-
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-cyan-400">
@@ -37,26 +54,24 @@ export default function MissionControl() {
           </p>
 
           <h2 className="mt-3 text-4xl font-bold text-white">
-            {mission.company}
+            {mission.objective}
           </h2>
 
           <p className="mt-2 text-slate-400">
-            {mission.role}
+            Priority: {mission.priority}
           </p>
         </div>
 
         <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-6 py-5 text-center">
           <p className="text-4xl font-bold text-cyan-300">
-            {mission.match}%
+            {confidence}%
           </p>
 
           <p className="mt-1 text-xs uppercase tracking-[0.2em] text-cyan-200">
-            Match
+            AI Confidence
           </p>
         </div>
       </div>
-
-      {/* Confidence */}
 
       <div className="mt-10">
         <div className="flex items-center justify-between">
@@ -64,54 +79,37 @@ export default function MissionControl() {
             <Sparkles className="h-5 w-5 text-cyan-400" />
 
             <span className="font-medium text-white">
-              AI Confidence
+              Today's Mission
             </span>
           </div>
 
           <span className="font-semibold text-cyan-300">
-            {mission.confidence}%
+            {mission.estimatedImpact}
           </span>
         </div>
 
-        <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/5">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-sky-500 transition-all duration-500"
-            style={{ width: `${mission.confidence}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Why */}
-
-      <div className="mt-10">
-        <h3 className="text-lg font-semibold text-white">
-          Why I recommended this
-        </h3>
-
-        <div className="mt-5 space-y-4">
-          {mission.reasons.map((reason) => (
+        <div className="mt-6 space-y-4">
+          {mission.tasks.map((task) => (
             <div
-              key={reason}
-              className="flex items-center gap-3"
+              key={task}
+              className="flex items-start gap-3"
             >
-              <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+              <CheckCircle2 className="mt-0.5 h-5 w-5 text-emerald-400" />
 
               <span className="text-slate-300">
-                {reason}
+                {task}
               </span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Activity */}
-
       <div className="mt-10 border-t border-white/5 pt-8">
         <div className="flex items-center gap-2">
           <TrendingUp className="h-5 w-5 text-cyan-400" />
 
           <h3 className="text-lg font-semibold text-white">
-            Recent AI Activity
+            Career Twin Activity
           </h3>
         </div>
 
@@ -136,8 +134,6 @@ export default function MissionControl() {
           ))}
         </div>
       </div>
-
-      {/* CTA */}
 
       <Link
         href="/mission"

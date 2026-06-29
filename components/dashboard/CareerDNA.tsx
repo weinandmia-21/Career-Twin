@@ -4,46 +4,63 @@ import Card from "@/components/ui/Card";
 import { useCareerTwinStore } from "@/lib/store/careerTwinStore";
 
 export default function CareerDNA() {
-  const profile = useCareerTwinStore(
-    (state) => state.profile
-  );
+  const profile = useCareerTwinStore((state) => state.profile);
 
   if (!profile) {
     return null;
   }
 
+  const clamp = (value: number) => Math.min(100, Math.max(35, value));
+
   const scores = [
     {
       label: "Communication",
-      value: 98,
+      value: clamp(75 + profile.topStrengths.length * 4),
     },
     {
       label: "Leadership",
-      value: profile.leadershipLevel === "Manager" ? 84 : 70,
+      value:
+        {
+          "Individual Contributor": 65,
+          Lead: 78,
+          Manager: 86,
+          "Senior Manager": 91,
+          Director: 95,
+          Executive: 99,
+          Unknown: 70,
+        }[profile.leadershipLevel],
     },
     {
       label: "Strategy",
-      value: 92,
+      value: clamp(
+        65 +
+          profile.careerThemes.length * 5 +
+          profile.idealRoles.length * 2
+      ),
     },
     {
       label: "Product Thinking",
       value: profile.skills.some((skill) =>
         skill.toLowerCase().includes("product")
       )
-        ? 90
-        : 70,
+        ? 92
+        : 72,
     },
     {
       label: "Technical Depth",
-      value: profile.tools.length * 25 + 30,
+      value: clamp(40 + profile.tools.length * 8),
     },
     {
       label: "AI Readiness",
-      value: profile.skills.some((skill) =>
-        skill.toLowerCase().includes("ai")
-      )
-        ? 95
-        : 65,
+      value:
+        profile.skills.some((skill) =>
+          skill.toLowerCase().includes("ai")
+        ) ||
+        profile.tools.some((tool) =>
+          tool.toLowerCase().includes("openai")
+        )
+          ? 96
+          : 68,
     },
   ];
 
@@ -59,8 +76,9 @@ export default function CareerDNA() {
         </h2>
 
         <p className="mt-3 max-w-3xl text-slate-400">
-          Your Career Twin analyzed your resume and identified the
-          strengths that define your professional identity.
+          Your Career Twin continuously analyzes your experience,
+          strengths, and career trajectory to understand what makes
+          you unique.
         </p>
       </div>
 
@@ -89,7 +107,7 @@ export default function CareerDNA() {
         ))}
       </div>
 
-      <div className="mt-12 grid gap-5 md:grid-cols-2">
+      <div className="mt-12 grid gap-5 lg:grid-cols-3">
         <div className="rounded-2xl border border-cyan-500/20 bg-slate-900 p-6">
           <p className="text-sm uppercase tracking-wider text-cyan-300">
             Top Strengths
@@ -124,6 +142,25 @@ export default function CareerDNA() {
               </span>
             ))}
           </div>
+        </div>
+
+        <div className="rounded-2xl border border-cyan-500/20 bg-slate-900 p-6">
+          <p className="text-sm uppercase tracking-wider text-cyan-300">
+            Ideal Roles
+          </p>
+
+          <ul className="mt-5 space-y-3">
+            {profile.idealRoles.slice(0, 5).map((role) => (
+              <li
+                key={role}
+                className="flex items-center gap-3 text-slate-200"
+              >
+                <span className="text-cyan-400">◆</span>
+
+                {role}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </Card>

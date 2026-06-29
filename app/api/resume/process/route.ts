@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { analyzeResume } from "@/lib/ai/analyzeResume";
+import { saveProfile } from "@/lib/career/saveProfile";
 import { extractPdfText } from "@/lib/parser/extractPdfText";
 
 export async function POST(request: Request) {
@@ -31,6 +32,9 @@ export async function POST(request: Request) {
 
     // Analyze the extracted resume text with GPT
     const profile = await analyzeResume(text);
+
+    // Save the AI profile to Supabase
+await saveProfile(profile);
 
     return NextResponse.json({
       success: true,

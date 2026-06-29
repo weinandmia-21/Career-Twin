@@ -1,6 +1,8 @@
+import { requireUser } from "@/lib/auth/requireUser";
 import ResumeUploader from "@/components/upload/ResumeUploader";
 
-export default function UploadPage() {
+export default async function UploadPage() {
+  await requireUser();
   return (
     <main className="min-h-screen bg-slate-950 px-8 py-20">
       <div className="mx-auto mb-12 max-w-5xl">

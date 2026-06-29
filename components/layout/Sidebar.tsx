@@ -1,5 +1,5 @@
 "use client";
-
+import LogoutButton from "@/components/auth/LogoutButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -103,28 +103,30 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Status */}
+      {/* Footer */}
 
-      <div className="border-t border-white/5 p-5">
-        <div className="rounded-2xl border border-white/5 bg-white/5 p-4 backdrop-blur-xl">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-              <div className="absolute inset-0 h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400 opacity-50" />
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold text-slate-100">
-                AI Engine Online
-              </p>
-
-              <p className="text-xs text-slate-500">
-                All systems operational
-              </p>
-            </div>
-          </div>
-        </div>
+<div className="border-t border-white/5 p-5 space-y-4">
+  <div className="rounded-2xl border border-white/5 bg-white/5 p-4 backdrop-blur-xl">
+    <div className="flex items-center gap-3">
+      <div className="relative">
+        <div className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+        <div className="absolute inset-0 h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400 opacity-50" />
       </div>
+
+      <div>
+        <p className="text-sm font-semibold text-slate-100">
+          AI Engine Online
+        </p>
+
+        <p className="text-xs text-slate-500">
+          All systems operational
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <LogoutButton />
+</div>
     </aside>
   );
 }

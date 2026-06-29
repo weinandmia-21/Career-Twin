@@ -4,6 +4,14 @@ import { jobMatchPrompt } from "./prompts/jobMatchPrompt";
 import type { CareerTwinProfile } from "./schemas";
 
 export type JobMatch = {
+  job: {
+    company: string;
+    title: string;
+    location: string;
+  };
+
+  summary: string;
+
   overallMatch: number;
 
   recommendedRole: string;
@@ -51,5 +59,12 @@ ${jobDescription}
 
   const text = response.output_text.trim();
 
-  return JSON.parse(text) as JobMatch;
+  try {
+    return JSON.parse(text) as JobMatch;
+  } catch (error) {
+    console.error("Failed to parse Job Match response:");
+    console.error(text);
+
+    throw new Error("Invalid JSON returned from OpenAI.");
+  }
 }

@@ -1,7 +1,9 @@
+import { requireUser } from "@/lib/auth/requireUser";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import JobAnalyzer from "@/components/jobs/JobAnalyzer";
 
-export default function JobsPage() {
+export default async function JobsPage() {
+  await requireUser();
   return (
     <DashboardLayout>
       <div className="mx-auto max-w-5xl py-10">

@@ -6,10 +6,9 @@ import { ArrowRight } from "lucide-react";
 import { useCareerTwinStore } from "@/lib/store/careerTwinStore";
 
 export default function HeroContent() {
-  const profile = useCareerTwinStore(
-    (state) => state.profile
-  );
-  console.log("📊 Dashboard profile:", profile);
+  const profile = useCareerTwinStore((state) => state.profile);
+const yearsExperience = profile?.yearsExperience ?? 0;
+  const greeting = "Welcome back";
 
   return (
     <div className="flex h-full flex-col justify-center">
@@ -22,18 +21,17 @@ export default function HeroContent() {
       </div>
 
       <h1 className="mt-8 text-6xl font-bold tracking-tight text-white">
-        Welcome back
-        {profile?.name ? `, ${profile.name}` : ""}.
-      </h1>
+  {greeting}
+  {profile?.name ? `, ${profile.name}` : ""}.
+</h1>
 
       <p className="mt-6 text-3xl font-semibold text-cyan-300">
-        {profile?.professionalTitle ??
-          "Building your Career Twin..."}
+        {profile?.professionalTitle || "Career Twin Ready"}
       </p>
 
       <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
-        {profile?.executiveSummary ??
-          "Upload your resume to begin creating your AI-powered Career Twin."}
+        {profile?.executiveSummary ||
+          "Upload your resume to generate your personalized Career Twin."}
       </p>
 
       <div className="mt-10 flex flex-wrap gap-3">
@@ -43,17 +41,18 @@ export default function HeroContent() {
           </div>
         )}
 
-        {profile?.yearsExperience !== undefined && (
-          <div className="rounded-full border border-cyan-500/20 bg-slate-900 px-5 py-2 text-cyan-300">
-            📈 {profile.yearsExperience}+ Years
-          </div>
-        )}
+        {yearsExperience > 0 && (
+  <div className="rounded-full border border-cyan-500/20 bg-slate-900 px-5 py-2 text-cyan-300">
+    📈 {yearsExperience}+ Years
+  </div>
+)}
 
-        {profile?.leadershipLevel && (
-          <div className="rounded-full border border-cyan-500/20 bg-slate-900 px-5 py-2 text-cyan-300">
-            👤 {profile.leadershipLevel}
-          </div>
-        )}
+        {profile?.leadershipLevel &&
+          profile.leadershipLevel !== "Unknown" && (
+            <div className="rounded-full border border-cyan-500/20 bg-slate-900 px-5 py-2 text-cyan-300">
+              👤 {profile.leadershipLevel}
+            </div>
+          )}
       </div>
 
       <Link

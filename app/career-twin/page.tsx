@@ -1,3 +1,4 @@
+import { requireUser } from "@/lib/auth/requireUser";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
 import ProfileOverview from "@/components/career-twin/ProfileOverview";
@@ -7,7 +8,8 @@ import StrengthsCard from "@/components/career-twin/StrengthsCard";
 import GoalsCard from "@/components/career-twin/GoalsCard";
 import AccomplishmentsCard from "@/components/career-twin/AccomplishmentsCard";
 
-export default function CareerTwinPage() {
+export default async function CareerTwinPage() {
+  await requireUser();
   return (
     <DashboardLayout>
       <ProfileOverview />

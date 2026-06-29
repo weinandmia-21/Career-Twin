@@ -1,9 +1,13 @@
+import { requireUser } from "@/lib/auth/requireUser";
+import { loadProfile } from "@/lib/career/loadProfile";
+
+import ProfileProvider from "@/components/providers/ProfileProvider";
+import { getDashboardData } from "@/lib/dashboard/dashboardService";
 import CareerDNA from "@/components/dashboard/CareerDNA";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-
 import DashboardHero from "@/components/dashboard/DashboardHero";
 import AIBriefing from "@/components/dashboard/AIBriefing";
-import MissionControl from "@/components/dashboard/MissionControl";
+import MissionControlServer from "@/components/dashboard/MissionControlServer";
 import StatCard from "@/components/dashboard/StatCard";
 
 import { dashboard } from "@/data/dashboard";
@@ -22,34 +26,44 @@ const icons = [
   MessageSquare,
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  await requireUser();
+
+  const profile = await loadProfile();
+
+const dashboardData = await getDashboardData();
+
   return (
-    <DashboardLayout>
-      <DashboardHero />
+    <>
+      <ProfileProvider profile={profile} />
 
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        {dashboard.stats.map((stat, index) => {
-          const Icon = icons[index];
+      <DashboardLayout>
+        <DashboardHero />
 
-          return (
-            <StatCard
-              key={stat.title}
-              title={stat.title}
-              value={stat.value}
-              subtitle={stat.subtitle}
-              icon={Icon}
-            />
-          );
-        })}
-      </div>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {dashboardData.stats.map((stat, index) => {
+            const Icon = icons[index];
 
-      <AIBriefing />
+            return (
+              <StatCard
+                key={stat.title}
+                title={stat.title}
+                value={stat.value}
+                subtitle={stat.subtitle}
+                icon={Icon}
+              />
+            );
+          })}
+        </div>
 
-      <CareerDNA />
+        <AIBriefing />
 
-      <MissionControl />
+        <CareerDNA />
 
-      <div className="mt-10" />
-    </DashboardLayout>
+        <MissionControlServer />
+
+        <div className="mt-10" />
+      </DashboardLayout>
+    </>
   );
 }

@@ -1,6 +1,8 @@
+import { requireUser } from "@/lib/auth/requireUser";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
-export default function Page() {
+export default async function Page() {
+  await requireUser();
   return (
     <DashboardLayout>
       <h1 className="text-3xl font-bold capitalize">documents</h1>

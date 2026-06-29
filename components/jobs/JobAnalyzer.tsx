@@ -18,7 +18,9 @@ export default function JobAnalyzer() {
   } = useJobMatch();
 
   async function handleAnalyze() {
-    if (!jobDescription.trim()) return;
+    if (!jobDescription.trim()) {
+      return;
+    }
 
     await analyze(jobDescription);
   }
@@ -36,8 +38,9 @@ export default function JobAnalyzer() {
       />
 
       <JobMatchResults
-        match={match}
-      />
+  match={match}
+  jobDescription={jobDescription}
+/>
     </div>
   );
 }
