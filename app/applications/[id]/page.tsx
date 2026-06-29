@@ -1,7 +1,8 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import ApplicationWorkspace from "@/components/workspace/ApplicationWorkspace";
+
 import { requireUser } from "@/lib/auth/requireUser";
 import { getApplication } from "@/lib/applications/applicationService";
 
@@ -26,102 +27,99 @@ export default async function ApplicationDetailsPage({
 
   return (
     <DashboardLayout>
-      <div className="space-y-10">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-400">
-            Application Workspace
-          </p>
+      <ApplicationWorkspace
+        application={application}
+        current="Overview"
+      >
+        <div className="space-y-8">
 
-          <h1 className="mt-3 text-5xl font-bold text-white">
-            {application.company}
-          </h1>
+          <div className="space-y-6">
 
-          <p className="mt-3 text-xl text-slate-300">
-            {application.role}
-          </p>
+  <div className="rounded-[32px] border border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 to-slate-900 p-8">
+
+    <p className="text-xs uppercase tracking-[0.35em] text-cyan-300">
+      Career Twin Assessment
+    </p>
+
+    <h2 className="mt-4 text-3xl font-bold text-white">
+      Strong Match for This Opportunity
+    </h2>
+
+    <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">
+      Based on your Career Twin profile, this role aligns well with your
+      presentation design, executive communications, and visual storytelling
+      experience. Your strongest opportunity is highlighting measurable
+      business impact and executive-facing work throughout your application.
+    </p>
+
+  </div>
+
+  <div className="grid gap-6 lg:grid-cols-2">
+
+    <div className="rounded-3xl border border-white/5 bg-slate-900 p-8">
+
+      <h3 className="text-xl font-semibold text-white">
+        Application Progress
+      </h3>
+
+      <div className="mt-6 space-y-4">
+
+        <div className="flex items-center justify-between">
+          <span className="text-slate-300">Resume Intelligence</span>
+          <span className="text-emerald-300">✓ Available</span>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="rounded-3xl border border-cyan-500/20 bg-slate-900 p-6">
-            <p className="text-sm uppercase tracking-wider text-cyan-300">
-              Match Score
-            </p>
-
-            <p className="mt-4 text-5xl font-bold text-white">
-              {application.matchScore}%
-            </p>
-          </div>
-
-          <div className="rounded-3xl border border-white/5 bg-slate-900 p-6">
-            <p className="text-sm uppercase tracking-wider text-slate-400">
-              Status
-            </p>
-
-            <p className="mt-4 text-2xl font-semibold text-white">
-              {application.status}
-            </p>
-          </div>
-
-          <div className="rounded-3xl border border-white/5 bg-slate-900 p-6">
-            <p className="text-sm uppercase tracking-wider text-slate-400">
-              Location
-            </p>
-
-            <p className="mt-4 text-2xl font-semibold text-white">
-              {application.location || "Not specified"}
-            </p>
-          </div>
+        <div className="flex items-center justify-between">
+          <span className="text-slate-300">Interview Intelligence</span>
+          <span className="text-cyan-300">Ready</span>
         </div>
 
-        <div className="rounded-3xl border border-white/5 bg-slate-900 p-8">
-          <p className="text-sm uppercase tracking-[0.3em] text-cyan-300">
-            Career Twin Notes
-          </p>
-
-          <p className="mt-5 text-lg leading-8 text-slate-300">
-            {application.notes ??
-              "No Career Twin notes have been saved yet."}
-          </p>
+        <div className="flex items-center justify-between">
+          <span className="text-slate-300">Cover Letter</span>
+          <span className="text-cyan-300">Ready</span>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {/* Tailor Resume */}
-          <Link
-            href={`/applications/${application.id}/resume`}
-            className="rounded-2xl border border-cyan-500/20 bg-cyan-500/10 p-6 transition hover:bg-cyan-500/20"
-          >
-            <p className="text-xl font-semibold text-white">
-              Tailor Resume
-            </p>
-
-            <p className="mt-2 text-slate-400">
-              Generate a resume tailored to this role.
-            </p>
-          </Link>
-
-          {/* Interview Prep */}
-          <button className="rounded-2xl border border-cyan-500/20 bg-cyan-500/10 p-6 text-left transition hover:bg-cyan-500/20">
-            <p className="text-xl font-semibold text-white">
-              Interview Prep
-            </p>
-
-            <p className="mt-2 text-slate-400">
-              Practice questions and STAR stories.
-            </p>
-          </button>
-
-          {/* Cover Letter */}
-          <button className="rounded-2xl border border-cyan-500/20 bg-cyan-500/10 p-6 text-left transition hover:bg-cyan-500/20">
-            <p className="text-xl font-semibold text-white">
-              Generate Cover Letter
-            </p>
-
-            <p className="mt-2 text-slate-400">
-              Build a customized cover letter.
-            </p>
-          </button>
-        </div>
       </div>
+
+    </div>
+
+    <div className="rounded-3xl border border-cyan-500/20 bg-cyan-500/5 p-8">
+
+      <p className="text-xs uppercase tracking-[0.35em] text-cyan-300">
+        Recommended Next Step
+      </p>
+
+      <h3 className="mt-4 text-2xl font-bold text-white">
+        Prepare for Interviews
+      </h3>
+
+      <p className="mt-4 leading-8 text-slate-300">
+        Your resume and application materials are ready. Generate Interview
+        Intelligence to practice likely questions and identify your strongest
+        STAR stories before applying.
+      </p>
+
+    </div>
+
+  </div>
+
+  <div className="rounded-3xl border border-white/5 bg-slate-900 p-8">
+
+    <p className="text-xs uppercase tracking-[0.35em] text-cyan-300">
+      Career Twin Notes
+    </p>
+
+    <p className="mt-5 leading-8 text-slate-300">
+      {application.notes ??
+        "No Career Twin notes have been saved yet."}
+    </p>
+
+  </div>
+
+</div>
+
+        </div>
+      </ApplicationWorkspace>
     </DashboardLayout>
   );
 }

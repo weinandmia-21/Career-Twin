@@ -1,5 +1,9 @@
 import { createClient } from "@/lib/auth/server";
-import type { JobApplication } from "./types";
+
+import type {
+  JobApplication,
+  ApplicationStatus,
+} from "./types";
 
 function mapApplication(row: any): JobApplication {
   return {
@@ -72,4 +76,62 @@ export async function getApplication(
   }
 
   return mapApplication(data);
+}
+
+export async function updateApplicationStatus(
+  id: string,
+  status: ApplicationStatus
+): Promise<boolean> {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return false;
+  }
+
+  const { error } = await supabase
+    .from("applications")
+    .update({
+      status,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error(error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function deleteApplication(
+  id: string
+): Promise<boolean> {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return false;
+  }
+
+  const { error } = await supabase
+    .from("applications")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error(error);
+    return false;
+  }
+
+  return true;
 }

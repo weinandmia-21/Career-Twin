@@ -42,7 +42,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-screen w-72 flex-col border-r border-white/5 bg-[#0B1120]/95 backdrop-blur-2xl">
+    <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-white/5 bg-[#0B1120]/95 backdrop-blur-2xl">
       {/* Logo */}
 
       <div className="border-b border-white/5 px-8 py-6">
@@ -57,7 +57,7 @@ export default function Sidebar() {
 
       {/* Navigation */}
 
-      <nav className="flex-1 overflow-y-auto px-5 py-6">
+      <nav className="flex-1 px-5 py-6">
         {sections.map((section) => (
           <div key={section.title} className="mb-8">
             <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-600">

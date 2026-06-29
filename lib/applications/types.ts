@@ -3,6 +3,7 @@ export type ApplicationStatus =
   | "Applied"
   | "Interview"
   | "Offer"
+  | "Accepted"
   | "Rejected"
   | "Archived";
 
@@ -30,7 +31,7 @@ export interface JobApplication {
   notes?: string;
 
   jobDescription?: string;
-  
+
   resumeVersion?: string;
 
   coverLetter?: string;

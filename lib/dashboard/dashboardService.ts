@@ -11,13 +11,17 @@ export async function getDashboardData() {
     (app) => app.status === "Applied"
   ).length;
 
-  const interviews = applications.filter(
-    (app) => app.status === "Interview"
-  ).length;
+  const interviews = applications.filter((app) =>
+  [
+    "Recruiter Screen",
+    "Hiring Manager Interview",
+    "Final Interview",
+  ].includes(app.status)
+).length;
 
-  const offers = applications.filter(
-    (app) => app.status === "Offer"
-  ).length;
+const offers = applications.filter((app) =>
+  ["Offer", "Accepted"].includes(app.status)
+).length;
 
   const topApplication =
     [...applications].sort(
