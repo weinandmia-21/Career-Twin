@@ -6,6 +6,7 @@ export async function POST(request: Request) {
   try {
     const {
       profile,
+      resume,
       jobDescription,
     } = await request.json();
 
@@ -14,6 +15,18 @@ export async function POST(request: Request) {
         {
           success: false,
           error: "Missing Career Twin profile.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (!resume) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Missing resume.",
         },
         {
           status: 400,
@@ -33,14 +46,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const resume = await tailorResume(
+    const result = await tailorResume(
       profile,
+      resume,
       jobDescription
     );
 
     return NextResponse.json({
       success: true,
-      resume,
+      result,
     });
   } catch (error) {
     console.error(error);

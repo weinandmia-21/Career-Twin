@@ -18,7 +18,17 @@ export interface JobApplication {
 
   status: ApplicationStatus;
 
+  /**
+   * Original application match score
+   * (used by the application tracker today)
+   */
   matchScore: number;
+
+  /**
+   * Career Twin AI Resume Match
+   * Generated after tailoring the resume
+   */
+  resumeMatch?: number;
 
   location: string;
 

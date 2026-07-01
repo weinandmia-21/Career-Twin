@@ -12,7 +12,12 @@ function mapApplication(row: any): JobApplication {
     company: row.company,
     role: row.role,
     status: row.status,
+
     matchScore: row.match_score,
+
+    // NEW
+    resumeMatch: row.resume_match,
+
     location: row.location,
     salary: row.salary,
     appliedDate: row.applied_date,
@@ -96,6 +101,42 @@ export async function updateApplicationStatus(
     .from("applications")
     .update({
       status,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error(error);
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * NEW
+ * Saves the latest AI Resume Match score
+ * for this application.
+ */
+export async function updateResumeMatch(
+  id: string,
+  resumeMatch: number
+): Promise<boolean> {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return false;
+  }
+
+  const { error } = await supabase
+    .from("applications")
+    .update({
+      resume_match: resumeMatch,
       updated_at: new Date().toISOString(),
     })
     .eq("id", id)

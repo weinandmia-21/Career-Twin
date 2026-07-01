@@ -13,7 +13,13 @@ type UploadState =
   | "analyzing"
   | "complete";
 
-export default function ResumeUploader() {
+type Props = {
+  applicationId?: string;
+};
+
+export default function ResumeUploader({
+  applicationId,
+}: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [fileName, setFileName] = useState("");
@@ -37,7 +43,14 @@ export default function ResumeUploader() {
     try {
       const formData = new FormData();
 
-      formData.append("file", file);
+formData.append("file", file);
+
+if (applicationId) {
+  formData.append(
+    "applicationId",
+    applicationId
+  );
+}
 
       const response = await fetch(
         "/api/resume/process",
@@ -52,7 +65,10 @@ export default function ResumeUploader() {
       console.log(result);
 
       if (result.success) {
-        setProfile(result.profile);
+    setProfile(result.profile);
+
+    console.log("Parsed Resume");
+    console.log(result.resume);
 
         setDiscoveries([
           result.profile.currentCompany ||

@@ -2,27 +2,27 @@ import { openai } from "./openai";
 import { resumeTailorPrompt } from "./prompts/resumeTailorPrompt";
 
 import type { CareerTwinProfile } from "./schemas";
+import type { Resume } from "@/lib/resume/schema";
 
-export type TailoredResume = {
-  summary: {
-    tailored: string;
-  };
+export type TailoredResumeResult = {
+  resume: Resume;
 
-  experienceHighlights: string[];
+  resumeMatch: number;
 
-  skillsToEmphasize: string[];
+  strengths: string[];
 
-  keywordsToAdd: string[];
+  opportunities: string[];
 
-  resumeRecommendations: string[];
+  improvements: string[];
 
-  atsScore: number;
+  keywordsAdded: string[];
 };
 
 export async function tailorResume(
   profile: CareerTwinProfile,
+  resume: Resume,
   jobDescription: string
-): Promise<TailoredResume> {
+): Promise<TailoredResumeResult> {
   const response = await openai.responses.create({
     model: "gpt-5.5",
     input: [
@@ -37,6 +37,10 @@ Career Twin Profile
 
 ${JSON.stringify(profile, null, 2)}
 
+Current Resume
+
+${JSON.stringify(resume, null, 2)}
+
 Job Description
 
 ${jobDescription}
@@ -45,13 +49,13 @@ ${jobDescription}
     ],
   });
 
-    const text = response.output_text.trim();
+  const text = response.output_text.trim();
 
   try {
-    return JSON.parse(text) as TailoredResume;
-  } catch (error) {
-    console.error("Invalid resume JSON:", text);
+    return JSON.parse(text) as TailoredResumeResult;
+  } catch {
+    console.error(text);
 
-    throw new Error("AI returned invalid resume data.");
+    throw new Error("AI returned invalid resume JSON.");
   }
 }

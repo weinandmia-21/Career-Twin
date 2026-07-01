@@ -1,28 +1,54 @@
 import { NextResponse } from "next/server";
+
 import { extractPdfText } from "@/lib/parser/extractPdfText";
+import { parseResumeToResume } from "@/lib/ai/parseResumeToResume";
+import { saveResume } from "@/lib/resume/repository";
 
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
 
     const file = formData.get("file");
+    const applicationId = formData.get("applicationId");
 
     if (!(file instanceof File)) {
       return NextResponse.json(
-        { error: "No file uploaded." },
-        { status: 400 }
+        {
+          success: false,
+          error: "No file uploaded.",
+        },
+        {
+          status: 400,
+        }
       );
     }
 
-    const result = await extractPdfText(file);
+    if (typeof applicationId !== "string") {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Missing application ID.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const extraction = await extractPdfText(file);
+
+    const resume = await parseResumeToResume(
+      extraction.text
+    );
+
+    await saveResume(
+      applicationId,
+      resume
+    );
 
     return NextResponse.json({
       success: true,
-      fileName: file.name,
-      pages: result.pages,
-      characters: result.text.length,
-      preview: result.text.slice(0, 500),
-      text: result.text,
+      resume,
     });
   } catch (error) {
     console.error(error);
@@ -30,7 +56,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Unable to parse PDF.",
+        error: "Unable to process resume.",
       },
       {
         status: 500,

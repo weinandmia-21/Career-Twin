@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import ApplicationWorkspace from "@/components/workspace/ApplicationWorkspace";
-import ResumeTailor from "@/components/resume/ResumeTailor";
+import ResumeStudio from "@/components/resume-studio/ResumeStudio";
 
 import { requireUser } from "@/lib/auth/requireUser";
 import { getApplication } from "@/lib/applications/applicationService";
@@ -26,9 +26,20 @@ export default async function ResumeWorkspace({
     loadProfile(),
   ]);
 
-  if (!application || !profile) {
-    notFound();
-  }
+  console.log({
+  application,
+  profile,
+});
+
+if (!application) {
+  console.log("❌ Application not found");
+  notFound();
+}
+
+if (!profile) {
+  console.log("❌ Profile not found");
+  notFound();
+}
 
   return (
     <DashboardLayout>
@@ -36,7 +47,7 @@ export default async function ResumeWorkspace({
         application={application}
         current="Resume"
       >
-        <ResumeTailor
+        <ResumeStudio
           application={application}
           profile={profile}
         />
